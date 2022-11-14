@@ -7,6 +7,7 @@ package psd1.main;
 import javax.swing.JFrame;
 import psd1.form.FrmNastavnik;
 import psd1.form.FrmNastavnik;
+import psd1.form.MainForm;
 import psd1.form.viewNastavnik;
 
 /**
@@ -19,7 +20,7 @@ public class main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-    JFrame forma= new viewNastavnik();
+    JFrame forma= new MainForm();
         forma.setVisible(true);
     }
     

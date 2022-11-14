@@ -5,6 +5,7 @@
 package psd1.form;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +25,7 @@ import psd1.model.TableModelNastavnikExtended;
 public class viewNastavnik2 extends javax.swing.JFrame {
 
     List<Nastavnik> nastavnici;
+    List<Nastavnik> deleted;
 
     /**
      * Creates new form viewNastavnik2
@@ -31,6 +33,7 @@ public class viewNastavnik2 extends javax.swing.JFrame {
     public viewNastavnik2() {
         initComponents();
         prepareTable();
+        deleted = new ArrayList<>();
     }
 
     /**
@@ -71,8 +74,18 @@ public class viewNastavnik2 extends javax.swing.JFrame {
         });
 
         btnDeleteRow.setText("Obrisi red");
+        btnDeleteRow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteRowActionPerformed(evt);
+            }
+        });
 
         btnSinh.setText("Sinhronizuj");
+        btnSinh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSinhActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -123,6 +136,28 @@ public class viewNastavnik2 extends javax.swing.JFrame {
 
         tmne.add(new Nastavnik());
     }//GEN-LAST:event_btnAddRowActionPerformed
+
+    private void btnDeleteRowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteRowActionPerformed
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Niste selektovali red");
+            return;
+        }
+
+        TableModelNastavnikExtended tmne = (TableModelNastavnikExtended) jTable1.getModel();
+        this.deleted.add(tmne.getNastavnik(selectedRow));
+        tmne.remove(selectedRow);
+    }//GEN-LAST:event_btnDeleteRowActionPerformed
+
+    private void btnSinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSinhActionPerformed
+        try {
+            TableModelNastavnikExtended tmne = (TableModelNastavnikExtended) jTable1.getModel();
+            List<Nastavnik> n = tmne.getAll();
+           Controller.getInstance().sync(n, deleted);
+        } catch (SQLException ex) {
+            Logger.getLogger(viewNastavnik2.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnSinhActionPerformed
 
     /**
      * @param args the command line arguments

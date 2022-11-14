@@ -17,41 +17,44 @@ import psd1.repository.RepositoryZvanje;
  * @author pc
  */
 public class Controller {
+
     private static Controller instance;
     private final RepositoryNastavnik repositoryNastavnik;
     private final RepositoryPredmet repositoryPredmet;
     private final RepositoryZvanje repositoryZvanje;
-   
-    
-    private Controller(){
-        repositoryNastavnik=new RepositoryNastavnik();
-        repositoryPredmet= new RepositoryPredmet();
-        repositoryZvanje= new RepositoryZvanje();
+
+    private Controller() {
+        repositoryNastavnik = new RepositoryNastavnik();
+        repositoryPredmet = new RepositoryPredmet();
+        repositoryZvanje = new RepositoryZvanje();
     }
-    
-    public static Controller getInstance(){
-        if(instance == null){
-            instance=new Controller();
+
+    public static Controller getInstance() {
+        if (instance == null) {
+            instance = new Controller();
         }
-        
+
         return instance;
     }
-    
 
     public List<Zvanje> getAllZvanja() {
-         return repositoryZvanje.getAllZvanja();
+        return repositoryZvanje.getAllZvanja();
 
     }
-    
-    public void insertUpdate(Nastavnik n,boolean update) throws SQLException{
-         repositoryNastavnik.saveNastavnik(n, update);
+
+    public void insertUpdate(Nastavnik n, boolean update) throws SQLException {
+        repositoryNastavnik.saveNastavnik(n, update);
     }
-    
-    public List<Nastavnik> getAllNastavnici() throws SQLException{
-     return  repositoryNastavnik.getAll();
+
+    public List<Nastavnik> getAllNastavnici() throws SQLException {
+        return repositoryNastavnik.getAll();
     }
-    
-    public void removeNastavnik(int id) throws SQLException{
-         repositoryNastavnik.removeNastavnik(id);
+
+    public void removeNastavnik(int id) throws SQLException {
+        repositoryNastavnik.removeNastavnik(id);
+    }
+
+    public void sync(List<Nastavnik> toSave, List<Nastavnik> toDelete) throws SQLException {
+        repositoryNastavnik.sync(toSave, toDelete);
     }
 }

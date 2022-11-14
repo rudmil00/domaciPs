@@ -12,22 +12,25 @@ import psd1.domain.Zvanje;
  *
  * @author pc
  */
-public class TableModelNastavnikExtended extends TableModelNastavnik{
-    
+public class TableModelNastavnikExtended extends TableModelNastavnik {
+
     public TableModelNastavnikExtended(List<Nastavnik> nastavnici) {
         super(nastavnici);
+
     }
 
- @Override
+    @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         Nastavnik n = nastavnici.get(rowIndex);
-        if(n.getZvanje().getId()==5){
-          if(columnIndex<=1){
-              return true;
-          }
+        if (n.getZvanje()==null || n.getZvanje().getId() != 5 ) {
+            if (columnIndex <= 2) {
+                return true;
+            }
+
         }
         return false;
     }
+
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         Nastavnik n = nastavnici.get(rowIndex);
@@ -46,6 +49,10 @@ public class TableModelNastavnikExtended extends TableModelNastavnik{
                 break;
         }
     }
-    
-    
+
+    public void remove(int selectedRow) {
+        nastavnici.remove(selectedRow);
+        fireTableDataChanged();
+    }
+
 }

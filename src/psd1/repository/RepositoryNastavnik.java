@@ -108,4 +108,25 @@ public class RepositoryNastavnik extends DbRepository {
             Logger.getLogger(RepositoryNastavnik.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public void sync(List<Nastavnik> toSave, List<Nastavnik> toDelete) throws SQLException {
+        /*
+        Ovde je moguce i primit samo `toSave` pa potom iz baze obrisati sve ID-eve
+        koji se ne nalaze u listi za cuvanje
+        
+        Implementacija: `syncAdvanced()`
+         */
+
+        this.connect();
+
+        for (Nastavnik n : toSave) {
+            this.saveNastavnik(n, false);
+        }
+
+        for (Nastavnik n : toDelete) {
+            this.removeNastavnik(n.getId());
+        }
+
+        this.disconnect();
+    }
 }
